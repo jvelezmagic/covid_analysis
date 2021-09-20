@@ -5,3 +5,4 @@ format: jb-book
 root: intro
 chapters:
 - file: 01-before-to-start
+- file: 02-collect-data
