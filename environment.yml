@@ -29,4 +29,5 @@ dependencies:
   - python-dotenv
   - seaborn
   - scikit-learn
+  - sphinx-external-toc=0.2.3
   - statsmodels
