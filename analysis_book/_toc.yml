@@ -7,3 +7,4 @@ chapters:
 - file: 01-before-to-start
 - file: 02-collect-data
 - file: 03-process-raw-data
+- file: 04-global-time-series
