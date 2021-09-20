@@ -7,11 +7,11 @@ channels:
   - defaults
 dependencies:
   - black
-  - invoke
+  - joblib
   - jupyter
   - jupyterlab
+  - jupyter-book
   - keras
-  - lightgbm
   - matplotlib
   - missingno
   - nbdime
@@ -19,16 +19,14 @@ dependencies:
   - pandas
   - pandas-flavor
   - pandas-profiling
+  - pmdarima
   - pip
   - plotly
   - pyjanitor
   - pylint
   - pyprojroot
-  - pyspark
   - python=3.9
   - python-dotenv
-  - scikit-learn
   - seaborn
+  - scikit-learn
   - statsmodels
-  - tensorflow
-  
