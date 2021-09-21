@@ -21,7 +21,7 @@ dependencies:
   - pandas-profiling
   - pmdarima
   - pip
-  - plotly
+  - plotly=5.3.1
   - pyjanitor
   - pylint
   - pyprojroot
