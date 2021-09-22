@@ -24,6 +24,7 @@ dependencies:
   - pmdarima
   - pip
   - plotly=5.3.1
+  - prince-factor-analysis
   - pyjanitor
   - pylint
   - pyprojroot
