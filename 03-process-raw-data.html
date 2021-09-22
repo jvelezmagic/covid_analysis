@@ -1,0 +1,1558 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Process raw data &#8212; Covid-19 Data Analysis</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8f53015daec13862f6db5e763c41738.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "github-org/github-repo");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Global time series analysis" href="04-global-time-series.html" />
+    <link rel="prev" title="Collect data" href="02-collect-data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Covid-19 Data Analysis</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-before-to-start.html">
+   Before to start
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-collect-data.html">
+   Collect data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Process raw data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-global-time-series.html">
+   Global time series analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-country-level-analysis.html">
+   Country level analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-mexico-analysis.html">
+   Mexico analysis
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03-process-raw-data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/jvelezmagic/covid_analysis"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/jvelezmagic/covid_analysis/issues/new?title=Issue%20on%20page%20%2F03-process-raw-data.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/jvelezmagic/covid_analysis/main?urlpath=tree/docs/03-process-raw-data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-libraries">
+   Load libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-default-input-and-output-directory">
+   Define default input and output directory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#johns-hopkins-university-time-series">
+   Johns Hopkins University - Time series
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#utilities">
+     Utilities
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#read-data">
+     Read data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-data">
+     Process data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#save-data">
+     Save data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#johns-hopkins-university-countries-metadata">
+   Johns Hopkins University - Countries metadata
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Read data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Process data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Save data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#johns-hopkins-university-vaccination-time-series">
+   Johns Hopkins University - Vaccination Time Series
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Read data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Process data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Save data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#government-of-mexico-data">
+   Government of Mexico data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unzip-files">
+     Unzip files
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-data">
+     Load data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#catalogs">
+       Catalogs
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#only-positive-covid-cases">
+       Only positive covid cases
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Process data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id8">
+       Catalogs
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#positive-cases">
+       Positive cases
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#replace-foreing-keys-as-text-values">
+         Replace foreing keys as text values
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Save data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sql-approach">
+     SQL approach
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="process-raw-data">
+<h1>Process raw data<a class="headerlink" href="#process-raw-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="load-libraries">
+<h2>Load libraries<a class="headerlink" href="#load-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="kn">import</span> <span class="nn">covid_analysis.utils.paths</span> <span class="k">as</span> <span class="nn">path</span>
+<span class="kn">import</span> <span class="nn">datatable</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">janitor</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas_flavor</span> <span class="k">as</span> <span class="nn">pf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type='text/css'>
+.datatable table.frame { margin-bottom: 0; }
+.datatable table.frame thead { border-bottom: none; }
+.datatable table.frame tr.coltypes td {  color: #FFFFFF;  line-height: 6px;  padding: 0 0.5em;}
+.datatable .bool    { background: #DDDD99; }
+.datatable .object  { background: #565656; }
+.datatable .int     { background: #5D9E5D; }
+.datatable .float   { background: #4040CC; }
+.datatable .str     { background: #CC4040; }
+.datatable .row_index {  background: var(--jp-border-color3);  border-right: 1px solid var(--jp-border-color0);  color: var(--jp-ui-font-color3);  font-size: 9px;}
+.datatable .frame tr.coltypes .row_index {  background: var(--jp-border-color0);}
+.datatable th:nth-child(2) { padding-left: 12px; }
+.datatable .hellipsis {  color: var(--jp-cell-editor-border-color);}
+.datatable .vellipsis {  background: var(--jp-layout-color0);  color: var(--jp-cell-editor-border-color);}
+.datatable .na {  color: var(--jp-cell-editor-border-color);  font-size: 80%;}
+.datatable .footer { font-size: 9px; }
+.datatable .frame_dimensions {  background: var(--jp-border-color3);  border-top: 1px solid var(--jp-border-color0);  color: var(--jp-ui-font-color3);  display: inline-block;  opacity: 0.6;  padding: 1px 10px 1px 5px;}
+</style>
+</div></div>
+</div>
+</div>
+<div class="section" id="define-default-input-and-output-directory">
+<h2>Define default input and output directory<a class="headerlink" href="#define-default-input-and-output-directory" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">data_raw_dir</span><span class="p">()</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">data_processed_dir</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="johns-hopkins-university-time-series">
+<h2>Johns Hopkins University - Time series<a class="headerlink" href="#johns-hopkins-university-time-series" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="utilities">
+<h3>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@pf</span><span class="o">.</span><span class="n">register_dataframe_method</span>
+<span class="k">def</span> <span class="nf">hopkins_tidy_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">out_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">df</span>
+        <span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s2">&quot;Country/Region&quot;</span><span class="p">,</span> <span class="s2">&quot;*/*/*&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">pivot_longer</span><span class="p">(</span>
+            <span class="n">index</span><span class="o">=</span><span class="s2">&quot;Country/Region&quot;</span><span class="p">,</span>
+            <span class="n">names_to</span><span class="o">=</span><span class="s2">&quot;date&quot;</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">clean_names</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;country_region&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">out_column</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="read-data">
+<h3>Read data<a class="headerlink" href="#read-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hopkins_time_series</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">stem</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;time_series_covid19_[!v]*_global.csv&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">hopkins_time_series</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;time_series_covid19_confirmed_global&#39;, &#39;time_series_covid19_deaths_global&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="process-data">
+<h3>Process data<a class="headerlink" href="#process-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hopkins_tidy_time_series</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">hopkins_tidy_data</span><span class="p">(</span><span class="n">out_column</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hopkins_time_series</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">hopkins_tidy_cumulative_df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">]),</span>
+        <span class="n">hopkins_tidy_time_series</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">hopkins_tidy_cumulative_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">hopkins_tidy_cumulative_df</span>
+    <span class="o">.</span><span class="n">columns</span>
+    <span class="o">.</span><span class="n">str</span>
+    <span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(country|date|confirmed|deaths)&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">hopkins_tidy_cumulative_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>date</th>
+      <th>confirmed</th>
+      <th>deaths</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>2020-01-22</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="save-data">
+<h3>Save data<a class="headerlink" href="#save-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">hopkins_tidy_cumulative_df</span>
+    <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+        <span class="n">path_or_buf</span><span class="o">=</span><span class="n">output_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;hopkins_tidy_cumulative.csv&quot;</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="johns-hopkins-university-countries-metadata">
+<h2>Johns Hopkins University - Countries metadata<a class="headerlink" href="#johns-hopkins-university-countries-metadata" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Read data<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries_metadata_filename</span> <span class="o">=</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;UID_ISO_FIPS_LookUp_Table.csv&quot;</span><span class="p">)</span>
+
+<span class="n">countries_metadata_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">countries_metadata_filename</span><span class="p">)</span>
+<span class="n">countries_metadata_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>UID</th>
+      <th>iso2</th>
+      <th>iso3</th>
+      <th>code3</th>
+      <th>FIPS</th>
+      <th>Admin2</th>
+      <th>Province_State</th>
+      <th>Country_Region</th>
+      <th>Lat</th>
+      <th>Long_</th>
+      <th>Combined_Key</th>
+      <th>Population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>AF</td>
+      <td>AFG</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Afghanistan</td>
+      <td>33.93911</td>
+      <td>67.709953</td>
+      <td>Afghanistan</td>
+      <td>38928341.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Process data<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries_population_df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">countries_metadata_df</span>
+    <span class="o">.</span><span class="n">clean_names</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;country_region&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;population&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;country&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">countries_population_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>38928341.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Save data<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">countries_population_df</span>
+    <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+        <span class="n">path_or_buf</span><span class="o">=</span><span class="n">output_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;countries_population.csv&quot;</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="johns-hopkins-university-vaccination-time-series">
+<h2>Johns Hopkins University - Vaccination Time Series<a class="headerlink" href="#johns-hopkins-university-vaccination-time-series" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Read data<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vaccinations_tidy_time_series_file</span> <span class="o">=</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;time_series_covid19_vaccine_global.csv&quot;</span><span class="p">)</span>
+
+<span class="n">vaccinations_tidy_time_series_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">vaccinations_tidy_time_series_file</span><span class="p">)</span>
+<span class="n">vaccinations_tidy_time_series_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country_Region</th>
+      <th>Date</th>
+      <th>Doses_admin</th>
+      <th>People_partially_vaccinated</th>
+      <th>People_fully_vaccinated</th>
+      <th>Report_Date_String</th>
+      <th>UID</th>
+      <th>Province_State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>2021-02-22</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2021-02-22</td>
+      <td>4.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>Process data<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vaccination_country_cumulative_df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">vaccinations_tidy_time_series_df</span>
+    <span class="o">.</span><span class="n">clean_names</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;country_region&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">remove_columns</span><span class="p">([</span><span class="s2">&quot;report_date_string&quot;</span><span class="p">,</span> <span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="s2">&quot;province_state&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">filter_on</span><span class="p">(</span><span class="s2">&quot;country != &#39;World&#39; and country != &#39;US (Aggregate)&#39;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">vaccination_country_cumulative_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>date</th>
+      <th>doses_admin</th>
+      <th>people_partially_vaccinated</th>
+      <th>people_fully_vaccinated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Afghanistan</td>
+      <td>2021-02-22</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>Save data<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">vaccination_country_cumulative_df</span>
+    <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+        <span class="n">path_or_buf</span><span class="o">=</span><span class="n">output_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;vaccination_country_cumulative.csv&quot;</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="government-of-mexico-data">
+<h2>Government of Mexico data<a class="headerlink" href="#government-of-mexico-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interim_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">data_interim_dir</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="unzip-files">
+<h3>Unzip files<a class="headerlink" href="#unzip-files" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>unzip -q -o -d <span class="o">{</span>str<span class="o">(</span>interim_dir<span class="o">)}</span> <span class="o">{</span>str<span class="o">(</span>input_dir.joinpath<span class="o">(</span><span class="s2">&quot;diccionario_datos_covid19.zip&quot;</span><span class="o">))}</span> <span class="s2">&quot;*Catalogos.xlsx&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>unzip -q -o -d <span class="o">{</span>str<span class="o">(</span>interim_dir<span class="o">)}</span> <span class="o">{</span>str<span class="o">(</span>input_dir.joinpath<span class="o">(</span><span class="s2">&quot;datos_abiertos_covid19.zip&quot;</span><span class="o">))}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="load-data">
+<h3>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="catalogs">
+<h4>Catalogs<a class="headerlink" href="#catalogs" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogs_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">interim_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*Catalogos.xlsx&quot;</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogs_dfs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span>
+    <span class="n">io</span><span class="o">=</span><span class="n">catalogs_file</span><span class="p">,</span>
+    <span class="n">sheet_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">header</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="n">catalogs_dfs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;Catálogo ORIGEN&#39;, &#39;Catálogo SECTOR&#39;, &#39;Catálogo SEXO&#39;, &#39;Catálogo TIPO_PACIENTE&#39;, &#39;Catálogo SI_NO&#39;, &#39;Catálogo NACIONALIDAD&#39;, &#39;Catálogo RESULTADO_LAB&#39;, &#39;Catálogo RESULTADO_ANTIGENO&#39;, &#39;Catálogo CLASIFICACION_FINAL&#39;, &#39;Catálogo de ENTIDADES&#39;, &#39;Catálogo MUNICIPIOS&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="only-positive-covid-cases">
+<h4>Only positive covid cases<a class="headerlink" href="#only-positive-covid-cases" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">covid_mex_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">interim_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*COVID19MEXICO.csv&quot;</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">interest_columns</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;ORIGEN&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SECTOR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ENTIDAD_UM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SEXO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TIPO_PACIENTE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FECHA_INGRESO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FECHA_SINTOMAS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FECHA_DEF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;INTUBADO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NEUMONIA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EDAD&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EMBARAZO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DIABETES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EPOC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ASMA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;INMUSUPR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HIPERTENSION&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OTRA_COM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CARDIOVASCULAR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OBESIDAD&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RENAL_CRONICA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TABAQUISMO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;UCI&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">covid_mex_dt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fread</span><span class="p">(</span><span class="n">covid_mex_file</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">CLASIFICACION_FINAL</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">interest_columns</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">names</span><span class="p">}</span>
+<span class="n">covid_mex_dt</span> <span class="o">=</span> <span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>origen</th>
+      <th>sector</th>
+      <th>entidad_um</th>
+      <th>sexo</th>
+      <th>tipo_paciente</th>
+      <th>fecha_ingreso</th>
+      <th>fecha_sintomas</th>
+      <th>fecha_def</th>
+      <th>intubado</th>
+      <th>neumonia</th>
+      <th>...</th>
+      <th>epoc</th>
+      <th>asma</th>
+      <th>inmusupr</th>
+      <th>hipertension</th>
+      <th>otra_com</th>
+      <th>cardiovascular</th>
+      <th>obesidad</th>
+      <th>renal_cronica</th>
+      <th>tabaquismo</th>
+      <th>uci</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>12</td>
+      <td>9</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020-10-16</td>
+      <td>2020-10-16</td>
+      <td>9999-99-99</td>
+      <td>97</td>
+      <td>2</td>
+      <td>...</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>97</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 23 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>Process data<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h4>Catalogs<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">en_replacement_values</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;AMBULATORIO&#39;</span><span class="p">:</span> <span class="s2">&quot;Ambulatory&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;CRUZ ROJA&#39;</span><span class="p">:</span> <span class="s2">&quot;Mexican Red Cross&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;DIF&#39;</span><span class="p">:</span> <span class="s2">&quot;DIF&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;ESTATAL&#39;</span><span class="p">:</span> <span class="s2">&quot;State&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;FUERA DE USMER&#39;</span><span class="p">:</span> <span class="s2">&quot;Out of USMER&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;HOMBRE&#39;</span><span class="p">:</span> <span class="s2">&quot;Man&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;HOSPITALIZADO&#39;</span><span class="p">:</span> <span class="s2">&quot;Hospitalized&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;IMSS&#39;</span><span class="p">:</span> <span class="s2">&quot;IMSS&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;IMSS-BIENESTAR&#39;</span><span class="p">:</span> <span class="s2">&quot;IMSS-BIENESTAR&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;ISSSTE&#39;</span><span class="p">:</span> <span class="s2">&quot;ISSSTE&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;MUJER&#39;</span><span class="p">:</span> <span class="s2">&quot;Woman&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;NO&#39;</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;NO APLICA&#39;</span><span class="p">:</span> <span class="s2">&quot;Does not apply&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;NO ESPECIFICADO&#39;</span><span class="p">:</span> <span class="s2">&quot;Not specified&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;PEMEX&#39;</span><span class="p">:</span> <span class="s2">&quot;PEMEX&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;PENDIENTE&#39;</span><span class="p">:</span> <span class="s2">&quot;Pending&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;PRIVADA&#39;</span><span class="p">:</span> <span class="s2">&quot;Private&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;SEDENA&#39;</span><span class="p">:</span> <span class="s2">&quot;SEDENA&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;SEMAR&#39;</span><span class="p">:</span> <span class="s2">&quot;SEMAR&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;SSA&#39;</span><span class="p">:</span> <span class="s2">&quot;SSA&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;SE IGNORA&#39;</span><span class="p">:</span> <span class="s2">&quot;It is ignored&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;SI&#39;</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;UNIVERSITARIO&#39;</span><span class="p">:</span> <span class="s2">&quot;Academic&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;USMER&#39;</span><span class="p">:</span> <span class="s2">&quot;USMER&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogs_dfs_2</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">catalogs_dfs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">sheet_name</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">inconsistent_columns_position</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;Unnamed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">inconsistent_columns_position</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sheet_name</span> <span class="o">==</span> <span class="s1">&#39;clasificacion_final&#39;</span><span class="p">:</span>
+            <span class="n">location_names</span> <span class="o">=</span> <span class="mi">1</span>
+ 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">location_names</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df</span>
+            <span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">location_names</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">location_names</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">clean_names</span><span class="p">()</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="nb">object</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">en_replacement_values</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">catalogs_dfs_2</span><span class="p">[</span><span class="n">sheet_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+
+<span class="n">catalogs_dfs_2</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;origen&#39;, &#39;sector&#39;, &#39;sexo&#39;, &#39;tipo_paciente&#39;, &#39;si_no&#39;, &#39;nacionalidad&#39;, &#39;resultado_lab&#39;, &#39;resultado_antigeno&#39;, &#39;clasificacion_final&#39;, &#39;entidades&#39;, &#39;municipios&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">sheet</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">catalogs_dfs_2</span><span class="o">.</span><span class="n">items</span><span class="p">()];</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>origen 
+    clave descripcion
+0      1       USMER
+sector 
+    clave        descripcion
+0      1  Mexican Red Cross
+sexo 
+    clave descripcion
+0      1       Woman
+tipo_paciente 
+    clave descripcion
+0      1  Ambulatory
+si_no 
+    clave descripcion
+0      1         Yes
+nacionalidad 
+    clave descripcion
+0      1    MEXICANA
+resultado_lab 
+   clave            descripcion
+0     1  POSITIVO A SARS-COV-2
+resultado_antigeno 
+   clave            descripcion
+0     1  POSITIVO A SARS-COV-2
+clasificacion_final 
+   clave                                      clasificacion  \
+0     1  CASO DE COVID-19 CONFIRMADO POR ASOCIACIÓN CLÍ...   
+
+                                         descripcion  
+0  Confirmado por asociación aplica cuando el cas...  
+entidades 
+    clave_entidad entidad_federativa abreviatura
+0              1     AGUASCALIENTES          AS
+municipios 
+    clave_municipio       municipio  clave_entidad
+0                1  AGUASCALIENTES              1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interest_catalogs_dicts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">sheet</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">catalog_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">catalog_df</span> <span class="ow">in</span> <span class="n">catalogs_dfs_2</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;origen&quot;</span><span class="p">,</span> <span class="s2">&quot;sector&quot;</span><span class="p">,</span> <span class="s2">&quot;sexo&quot;</span><span class="p">,</span> <span class="s2">&quot;tipo_paciente&quot;</span><span class="p">,</span> <span class="s2">&quot;si_no&quot;</span><span class="p">,</span> <span class="s2">&quot;entidades&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;origen&#39;, &#39;sector&#39;, &#39;sexo&#39;, &#39;tipo_paciente&#39;, &#39;si_no&#39;, &#39;entidades&#39;])
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1: &#39;Mexican Red Cross&#39;,
+ 2: &#39;DIF&#39;,
+ 3: &#39;State&#39;,
+ 4: &#39;IMSS&#39;,
+ 5: &#39;IMSS-BIENESTAR&#39;,
+ 6: &#39;ISSSTE&#39;,
+ 7: &#39;MUNICIPAL&#39;,
+ 8: &#39;PEMEX&#39;,
+ 9: &#39;Private&#39;,
+ 10: &#39;SEDENA&#39;,
+ 11: &#39;SEMAR&#39;,
+ 12: &#39;SSA&#39;,
+ 13: &#39;Academic&#39;,
+ 99: &#39;Not specified&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="positive-cases">
+<h4>Positive cases<a class="headerlink" href="#positive-cases" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="replace-foreing-keys-as-text-values">
+<h5>Replace foreing keys as text values<a class="headerlink" href="#replace-foreing-keys-as-text-values" title="Permalink to this headline">¶</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">si_no_columns</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;intubado&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;neumonia&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;embarazo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;diabetes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;epoc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;asma&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;inmusupr&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hipertension&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;otra_com&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cardiovascular&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;obesidad&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;renal_cronica&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tabaquismo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uci&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">replacement_keys</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="s2">&quot;origen&quot;</span><span class="p">,):</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;origen&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">,):</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;sexo&quot;</span><span class="p">,):</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sexo&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;tipo_paciente&quot;</span><span class="p">,):</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tipo_paciente&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;entidad_um&quot;</span><span class="p">,):</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entidades&quot;</span><span class="p">),</span>
+    <span class="n">si_no_columns</span><span class="p">:</span> <span class="n">interest_catalogs_dicts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;si_no&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">columns</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">replacement_keys</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">covid_mex_dt</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">replacement</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>origen</th>
+      <th>sector</th>
+      <th>entidad_um</th>
+      <th>sexo</th>
+      <th>tipo_paciente</th>
+      <th>fecha_ingreso</th>
+      <th>fecha_sintomas</th>
+      <th>fecha_def</th>
+      <th>intubado</th>
+      <th>neumonia</th>
+      <th>...</th>
+      <th>epoc</th>
+      <th>asma</th>
+      <th>inmusupr</th>
+      <th>hipertension</th>
+      <th>otra_com</th>
+      <th>cardiovascular</th>
+      <th>obesidad</th>
+      <th>renal_cronica</th>
+      <th>tabaquismo</th>
+      <th>uci</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Out of USMER</td>
+      <td>SSA</td>
+      <td>CIUDAD DE MÉXICO</td>
+      <td>Man</td>
+      <td>Ambulatory</td>
+      <td>2020-10-16</td>
+      <td>2020-10-16</td>
+      <td>9999-99-99</td>
+      <td>Does not apply</td>
+      <td>No</td>
+      <td>...</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Does not apply</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 23 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">en_columns</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">origen</span><span class="o">=</span><span class="s2">&quot;origin&quot;</span><span class="p">,</span>
+    <span class="n">sector</span><span class="o">=</span><span class="s2">&quot;sector&quot;</span><span class="p">,</span>
+    <span class="n">sexo</span><span class="o">=</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span>
+    <span class="n">tipo_paciente</span><span class="o">=</span><span class="s2">&quot;patient_type&quot;</span><span class="p">,</span>
+    <span class="n">fecha_ingreso</span><span class="o">=</span><span class="s2">&quot;date_admission&quot;</span><span class="p">,</span>
+    <span class="n">fecha_sintomas</span><span class="o">=</span><span class="s2">&quot;date_symptoms&quot;</span><span class="p">,</span>
+    <span class="n">fecha_def</span><span class="o">=</span><span class="s2">&quot;date_death&quot;</span><span class="p">,</span>
+    <span class="n">diabetes</span><span class="o">=</span><span class="s2">&quot;diabetes&quot;</span><span class="p">,</span>
+    <span class="n">embarazo</span><span class="o">=</span><span class="s2">&quot;pregnancy&quot;</span><span class="p">,</span>
+    <span class="n">intubado</span><span class="o">=</span><span class="s2">&quot;intubated&quot;</span><span class="p">,</span>
+    <span class="n">epoc</span><span class="o">=</span><span class="s2">&quot;epoc&quot;</span><span class="p">,</span>
+    <span class="n">asma</span><span class="o">=</span><span class="s2">&quot;asthma&quot;</span><span class="p">,</span>
+    <span class="n">inmusupr</span><span class="o">=</span><span class="s2">&quot;immunosuppressed&quot;</span><span class="p">,</span>
+    <span class="n">hipertension</span><span class="o">=</span><span class="s2">&quot;hypertension&quot;</span><span class="p">,</span>
+    <span class="n">otra_com</span><span class="o">=</span><span class="s2">&quot;other_comorbidity&quot;</span><span class="p">,</span>
+    <span class="n">cardiovascular</span><span class="o">=</span><span class="s2">&quot;cardiovascular&quot;</span><span class="p">,</span>
+    <span class="n">obesidad</span><span class="o">=</span><span class="s2">&quot;obesity&quot;</span><span class="p">,</span>
+    <span class="n">renal_cronica</span><span class="o">=</span><span class="s2">&quot;chronic_kidney&quot;</span><span class="p">,</span>
+    <span class="n">tabaquismo</span><span class="o">=</span><span class="s2">&quot;smoking&quot;</span><span class="p">,</span>
+    <span class="n">neumonia</span><span class="o">=</span><span class="s2">&quot;pneumonia&quot;</span><span class="p">,</span>
+    <span class="n">uci</span><span class="o">=</span><span class="s2">&quot;icu&quot;</span><span class="p">,</span>
+    <span class="n">edad</span><span class="o">=</span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="n">entidad_um</span><span class="o">=</span><span class="s2">&quot;state&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">en_columns</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">covid_mex_dt</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>origin</th>
+      <th>sector</th>
+      <th>state</th>
+      <th>sex</th>
+      <th>patient_type</th>
+      <th>date_admission</th>
+      <th>date_symptoms</th>
+      <th>date_death</th>
+      <th>intubated</th>
+      <th>pneumonia</th>
+      <th>...</th>
+      <th>epoc</th>
+      <th>asthma</th>
+      <th>immunosuppressed</th>
+      <th>hypertension</th>
+      <th>other_comorbidity</th>
+      <th>cardiovascular</th>
+      <th>obesity</th>
+      <th>chronic_kidney</th>
+      <th>smoking</th>
+      <th>icu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Out of USMER</td>
+      <td>SSA</td>
+      <td>CIUDAD DE MÉXICO</td>
+      <td>Man</td>
+      <td>Ambulatory</td>
+      <td>2020-10-16</td>
+      <td>2020-10-16</td>
+      <td>9999-99-99</td>
+      <td>Does not apply</td>
+      <td>No</td>
+      <td>...</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Does not apply</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 23 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Save data<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">covid_mex_dt</span>
+    <span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+        <span class="n">path_or_buf</span><span class="o">=</span><span class="n">output_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;positive_covid_mex.csv&quot;</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sql-approach">
+<h3>SQL approach<a class="headerlink" href="#sql-approach" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">output_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;covid_mex.db&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+
+    <span class="k">for</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">catalogs_dfs_2</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="p">(</span>
+            <span class="n">df</span>
+            <span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">sheet</span><span class="p">,</span>
+                <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span> 
+                <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">,</span>
+                <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="p">(</span>
+        <span class="n">covid_mex_df</span>
+        <span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span>
+            <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span>
+            <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">,</span>
+            <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="02-collect-data.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Collect data</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="04-global-time-series.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Global time series analysis</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jesús Vélez Santiago - @jvelezmagic<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
