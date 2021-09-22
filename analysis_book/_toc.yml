@@ -9,3 +9,4 @@ chapters:
 - file: 03-process-raw-data
 - file: 04-global-time-series
 - file: 05-country-level-analysis
+- file: 06-mexico-analysis

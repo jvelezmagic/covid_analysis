@@ -7,6 +7,7 @@ channels:
   - defaults
 dependencies:
   - black
+  - datatable
   - joblib
   - jupyter
   - jupyterlab
@@ -16,6 +17,7 @@ dependencies:
   - missingno
   - nbdime
   - numpy
+  - openpyxl
   - pandas
   - pandas-flavor
   - pandas-profiling
