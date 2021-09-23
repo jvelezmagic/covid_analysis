@@ -328,8 +328,10 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="section" id="data-sources">
 <h2>Data sources<a class="headerlink" href="#data-sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins University - Time Series</a></p></li>
-<li><p><a class="reference external" href="https://github.com/govex/COVID-19/">Johns Hopkins University - Vaccination</a></p></li>
+<li><p><a class="reference external" href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins University (JHU) - Time Series</a></p></li>
+<li><p><a class="reference external" href="https://github.com/govex/COVID-19/">Johns Hopkins University (JHU) - Vaccination</a></p></li>
+<li><p><a class="reference external" href="https://ourworldindata.org/covid-vaccinations">Our World in Data (OWiD)</a></p></li>
+<li><p><a class="reference external" href="https://covid19.who.int/who-data/vaccination-data.csv">World Health Organization (WHO)</a></p></li>
 <li><p><a class="reference external" href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico">Government of Mexico - COVID-19</a></p></li>
 </ul>
 </div>
@@ -372,6 +374,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="section" id="download-johns-hopkins-university-time-series">
 <h2>Download Johns Hopkins University time series<a class="headerlink" href="#download-johns-hopkins-university-time-series" title="Permalink to this headline">¶</a></h2>
+<p>The time series provided by Johns Hopkins University includes the confirmed cases and deaths accumulated since January 22, 2020, by country or province of the country. The recovered table was depreciated due to <a class="reference external" href="https://github.com/CSSEGISandData/COVID-19/issues/3464">Issue #3464</a> and <a class="reference external" href="https://github.com/CSSEGISandData/COVID-19/issues/4465">Issue #4465</a> and is subject to return uncertainty.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hopkins_base_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/&quot;</span>
@@ -401,6 +404,13 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="section" id="download-johns-hopkins-university-countries-metadata">
 <h2>Download Johns Hopkins University countries metadata<a class="headerlink" href="#download-johns-hopkins-university-countries-metadata" title="Permalink to this headline">¶</a></h2>
+<p>This table contains the identifiers of each country and province together with an estimate of its population.</p>
+<p>Here it is important to note that, in its description, you can found the following information:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The names of locations included on the Website correspond with the official designations used by the U.S. Department of State. The presentation of material therein does not imply the expression of any opinion whatsoever on the part of JHU concerning the legal status of any country, area or territory or of its authorities. The depiction and use of boundaries, geographic names and related data shown on maps and included in lists, tables, documents, and databases on this website are not warranted to be error free nor do they necessarily imply official endorsement or acceptance by JHU.</p>
+</div>
+<p>Therefore, you will be able to find observations that have a description or country name such as <code class="docutils literal notranslate"><span class="pre">Taiwan*</span></code> instead of just <code class="docutils literal notranslate"><span class="pre">Taiwan</span></code>. However, for quantitative fines, you can ignore that fact and quantify the results by identifier.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries_meta_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv&quot;</span>
@@ -419,6 +429,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="section" id="download-johns-hopkins-university-vaccination-time-series">
 <h2>Download Johns Hopkins University vaccination time series<a class="headerlink" href="#download-johns-hopkins-university-vaccination-time-series" title="Permalink to this headline">¶</a></h2>
+<p>The global time series provided by Johns Hopkins University contains the number of vaccination doses given and whether the person received their first dose or was fully vaccinated.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vaccination_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/govex/COVID-19/master/data_tables/vaccine_data/global_data/time_series_covid19_vaccine_global.csv&quot;</span>
@@ -437,8 +448,14 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="section" id="download-government-of-mexico-data">
 <h2>Download Government of Mexico data<a class="headerlink" href="#download-government-of-mexico-data" title="Permalink to this headline">¶</a></h2>
+<p>The Government of Mexico provides information on the Epidemiological Surveillance System for Viral Respiratory Diseases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Preliminary data subject to validation by the Ministry of Health through the General Directorate of Epidemiology. The information contained corresponds only to the data obtained from the epidemiological study of a suspected case of viral respiratory disease when it is identified in the medical units of the Health Sector.</p>
+</div>
 <div class="section" id="data-dictionaries">
 <h3>Data dictionaries<a class="headerlink" href="#data-dictionaries" title="Permalink to this headline">¶</a></h3>
+<p>The data dictionaries contain an excel (<code class="docutils literal notranslate"><span class="pre">.xlsx</span></code>) file where each sheet corresponds to the annotation of a table with its key and description.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_dict_mex_url</span> <span class="o">=</span> <span class="s2">&quot;http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/diccionario_datos_covid19.zip&quot;</span>
@@ -457,6 +474,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="section" id="open-covid-19-data">
 <h3>Open covid-19 data<a class="headerlink" href="#open-covid-19-data" title="Permalink to this headline">¶</a></h3>
+<p>The open data of covid19 from the government of Mexico is in a pervasive and zero standardized <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file at the database level because it is a look-up table. Therefore, different variables can be calculated from others in the same data set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_mex_url</span> <span class="o">=</span> <span class="s2">&quot;http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip&quot;</span>
@@ -465,9 +483,11 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 </div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget -q <span class="o">{</span>data_mex_url<span class="o">}</span> -O <span class="o">{</span>output_dir<span class="o">}</span>
+<p>Although you could download the database (approximately 2GB) using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!wget -q <span class="o">{</span>data_mex_url<span class="o">}</span> -O <span class="o">{</span>output_dir<span class="o">}</span>
 </pre></div>
 </div>
+<p>Here we opted to use <code class="docutils literal notranslate"><span class="pre">axel</span></code> to speed up the process a bit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>axel -q -n <span class="m">8</span> <span class="o">{</span>data_mex_url<span class="o">}</span> -o <span class="o">{</span>output_dir<span class="o">}</span>
