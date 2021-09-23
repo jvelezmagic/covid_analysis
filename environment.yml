@@ -9,6 +9,7 @@ dependencies:
   - axel
   - black
   - datatable
+  - ghp-import
   - joblib
   - jupyter
   - jupyterlab
